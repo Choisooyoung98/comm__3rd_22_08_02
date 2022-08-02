@@ -1,6 +1,7 @@
 package com.ll.exam;
 
 import com.ll.exam.article.controller.ArticleController;
+import com.ll.exam.article.repository.ArticleRepository;
 import com.ll.exam.article.service.ArticleService;
 import com.ll.exam.home.controller.HomeController;
 import org.junit.jupiter.api.Test;
@@ -43,23 +44,44 @@ public class AppTest {
 
         assertThat(homeController2).isEqualTo(homeController1);
     }
+
     @Test
     public void ioc__Controller들을_스캔하여_수집() {
         List<String> names = Con.getControllerNames();
         assertThat(names).contains("home");
         assertThat(names).contains("article");
     }
+
     @Test
     public void ioc__articleService() {
         ArticleService articleService = Con.getObj(ArticleService.class);
 
         assertThat(articleService).isNotNull();
     }
+
     @Test
     public void ioc__articleService__싱글톤() {
         ArticleService articleService1 = Con.getObj(ArticleService.class);
         ArticleService articleService2 = Con.getObj(ArticleService.class);
 
         assertThat(articleService2).isEqualTo(articleService1);
+    }
+
+    @Test
+    public void articleController를_생성할때_articleService도_같이_생성() {
+        ArticleController articleController = Con.getObj(ArticleController.class);
+
+        ArticleService articleService = Ut.reflection.getFieldValue(articleController, "articleService", null);
+
+        assertThat(articleService).isNotNull();
+    }
+
+    @Test
+    public void articleService를_생성할때_articleRepository도_같이_생성() {
+        ArticleService articleService = Con.getObj(ArticleService.class);
+
+        ArticleRepository articleRepository = Ut.reflection.getFieldValue(articleService, "articleRepository", null);
+
+        assertThat(articleRepository).isNotNull();
     }
 }
