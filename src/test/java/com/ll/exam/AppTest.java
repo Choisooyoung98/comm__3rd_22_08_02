@@ -1,9 +1,12 @@
 package com.ll.exam;
+
 import com.ll.exam.article.controller.ArticleController;
+import com.ll.exam.article.service.ArticleService;
 import com.ll.exam.home.controller.HomeController;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
+
 public class AppTest {
     @Test
     public void junit_assertThat() {
@@ -45,5 +48,18 @@ public class AppTest {
         List<String> names = Con.getControllerNames();
         assertThat(names).contains("home");
         assertThat(names).contains("article");
+    }
+    @Test
+    public void ioc__articleService() {
+        ArticleService articleService = Con.getObj(ArticleService.class);
+
+        assertThat(articleService).isNotNull();
+    }
+    @Test
+    public void ioc__articleService__싱글톤() {
+        ArticleService articleService1 = Con.getObj(ArticleService.class);
+        ArticleService articleService2 = Con.getObj(ArticleService.class);
+
+        assertThat(articleService2).isEqualTo(articleService1);
     }
 }
