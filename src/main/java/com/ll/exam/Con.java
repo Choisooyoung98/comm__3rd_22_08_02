@@ -21,18 +21,18 @@ public class Con {
     }
 
     private static void scanComponents() {
-        scanService();
-        scanController();
+        scanServices();
+        scanControllers();
     }
 
-    private static void scanService() {
+    private static void scanServices() {
         Reflections ref = new Reflections("com.ll.exam");
         for (Class<?> cls : ref.getTypesAnnotatedWith(Service.class)) {
             objects.put(cls, Ut.cls.newObj(cls, null));
         }
     }
 
-    private static void scanController() {
+    private static void scanControllers() {
         Reflections ref = new Reflections("com.ll.exam");
         for (Class<?> cls : ref.getTypesAnnotatedWith(Controller.class)) {
             objects.put(cls, Ut.cls.newObj(cls, null));
