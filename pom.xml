@@ -9,6 +9,14 @@
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
+
+        <!-- @Controller라고 쓰여진 것 검색 -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.10.2</version>
+        </dependency>
+
         <!-- JUNIT 5, 엔진 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
