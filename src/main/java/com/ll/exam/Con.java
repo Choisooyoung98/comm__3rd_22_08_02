@@ -5,20 +5,24 @@ import com.ll.exam.article.controller.ArticleController;
 import com.ll.exam.home.controller.HomeController;
 import org.reflections.Reflections;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Con {
-    private static final ArticleController articleController;
-    private static final HomeController homeController;
+    private static Map<Class, Object> objects;
+
     static {
-        articleController = (ArticleController) Ut.cls.newObj(ArticleController.class, null);
-        homeController = (HomeController) Ut.cls.newObj(HomeController.class, null);
+        objects = new HashMap<>();
+
+        Reflections ref = new Reflections("com.ll.exam");
+        for (Class<?> cls : ref.getTypesAnnotatedWith(Controller.class)) {
+            objects.put(cls, Ut.cls.newObj(cls, null));
+        }
     }
-    public static ArticleController getArticleController() {
-        return articleController;
+    public static <T> T getObj(Class<T> cls) {
+        return (T)objects.get(cls);
     }
 
 
